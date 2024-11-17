@@ -1,0 +1,10 @@
+fastapi
+tensorflow      # Specify version if needed (for compatibility with your model)
+pandas
+numpy
+tqdm
+Pillow
+scipy    # Keras might require scipy
+uvicorn
+requests
+          # For running the FastAPI server
