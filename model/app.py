@@ -23,7 +23,8 @@ from io import BytesIO
 from fastapi import FastAPI, HTTPException
 from tensorflow.keras.preprocessing import image
 from PIL import Image
-
+from mangum import Mangum
+import uvicorn
 # Load your saved model
 model_path = "model_captioning.keras"  # replace with your model file path
 caption_model = load_model(model_path)
@@ -32,24 +33,6 @@ with open('tokenizer_flickr8k.pkl', 'rb') as file:
     tokenizer = pickle.load(file)
 vocab_size = len(tokenizer.word_index) + 1
 max_length = 34
-# max_length = max(len(caption.split()) for caption in captions)
-
-# data = pd.read_csv("captions.txt")
-# def text_preprocessing(data):
-#     data['caption'] = data['caption'].apply(lambda x: x.lower())
-#     data['caption'] = data['caption'].apply(lambda x: x.replace("[^A-Za-z]",""))
-#     data['caption'] = data['caption'].apply(lambda x: x.replace("\s+"," "))
-#     data['caption'] = data['caption'].apply(lambda x: " ".join([word for word in x.split() if len(word)>1]))
-#     data['caption'] = "startseq "+data['caption']+" endseq"
-#     return data
-# data = text_preprocessing(data)
-# captions = data['caption'].tolist()
-# captions[:10]
-
-# tokenizer = Tokenizer()
-# tokenizer.fit_on_texts(captions)
-# vocab_size = len(tokenizer.word_index) + 1
-# max_length = max(len(caption.split()) for caption in captions)
 
 model = DenseNet201()
 feature_model = Model(inputs=model.input, outputs=model.layers[-2].output)
@@ -92,6 +75,7 @@ def predict_caption(model, image, tokenizer, max_length):
     return in_text
 
 app = FastAPI(title="Image Analysis API", description="API to analyze images and generate captions", version="0.1")
+handler = Mangum(app)
 
 @app.post("/predict/caption")
 async def predict(image_url: str):
@@ -151,3 +135,10 @@ async def predict(image_url: str):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+
+
+
+
+if __name__ == "__main__":
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, log_level="debug",
+                proxy_headers=True, reload=True)

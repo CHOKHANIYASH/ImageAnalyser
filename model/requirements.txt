@@ -7,4 +7,4 @@ Pillow
 scipy    # Keras might require scipy
 uvicorn
 requests
-          # For running the FastAPI server
+mangum
