@@ -10,19 +10,16 @@ import { useAppSelector } from "@/redux/hooks/index";
 export default function Tag() {
   const searchParams = useSearchParams();
   const imageUrl = searchParams.get("imageUrl");
-  const image = imageUrl.split("/").pop();
-  const [tags, setTags] = useState([]);
-  const accessToken = useAppSelector((state) => state.accessToken);
+  // const image = imageUrl.split("/").pop();
+  const [tags, setTags] = useState("");
+  // const accessToken = useAppSelector((state) => state.accessToken);
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_SERVER_MODEL_URL}/?image_url=${image}`, {
-        headers: {
-          access_token: `${accessToken}`,
-        },
-      })
+      .post(
+        `${process.env.NEXT_PUBLIC_SERVER_MODEL_URL}/predict/tags/?image_url=${imageUrl}`
+      )
       .then((response) => {
-        console.log(response);
-        setTags(response.tag);
+        setTags(response.data.Tag);
       })
       .catch((err) => {
         console.log(err);
@@ -38,14 +35,8 @@ export default function Tag() {
           className="object-cover max-sm:p-2 max-sm:rounded-3xl rounded-xl group-hover/card:shadow-xl"
           alt="thumbnail"
         />
-        <div className="flex flex-col items-center">
-          {tags.length !== 0 ? (
-            { tags }
-          ) : (
-            <h1 className="text-2xl font-bold text-neutral-800">
-              No Tags Available
-            </h1>
-          )}
+        <div className="flex flex-col items-center text-2xl font-bold text-neutral-800">
+          {tags !== "" ? tags : <h1 className="">No Tags Available</h1>}
         </div>
       </div>
     </>

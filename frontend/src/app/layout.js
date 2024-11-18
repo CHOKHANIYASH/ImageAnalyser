@@ -7,8 +7,8 @@ import { ToastContainer } from "react-toastify";
 
 import ReduxProvider from "./ReduxProvider";
 export const metadata = {
-  title: "Image Tagger",
-  description: "Get your images tagged with ease",
+  title: "Image Analyzer",
+  description: "",
 };
 export default function RootLayout({ children }) {
   return (
