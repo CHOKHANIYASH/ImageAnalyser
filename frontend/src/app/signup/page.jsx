@@ -46,7 +46,7 @@ export default function Signup() {
       setUsername("");
       setEmail("");
       setPassword("");
-      console.log("Form submitted");
+      // console.log("Form submitted");
       // const tokenDecoded = jwt.decode(
       //   response.data.data.Authentication.AccessToken,
       //   { complete: true }
