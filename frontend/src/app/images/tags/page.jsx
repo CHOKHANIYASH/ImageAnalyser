@@ -16,7 +16,7 @@ export default function Tag() {
   useEffect(() => {
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_SERVER_MODEL_URL}/predict/tags/?image_url=${imageUrl}`
+        `https://d7i9m4qiyzzde.cloudfront.net/predict/tags/?image_url=${imageUrl}`
       )
       .then((response) => {
         setTags(response.data.Tag);
