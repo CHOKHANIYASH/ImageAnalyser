@@ -28,7 +28,7 @@ from mangum import Mangum
 # Load your saved model
 model_path = "model_captioning.keras"  # replace with your model file path
 caption_model = load_model(model_path)
-feature_model = load_model("denseNet121.keras")
+feature_model = load_model("denseNet201.keras")
 with open('tokenizer_flickr8k.pkl', 'rb') as file:
     tokenizer = pickle.load(file)
 vocab_size = len(tokenizer.word_index) + 1
