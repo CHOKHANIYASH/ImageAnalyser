@@ -13,14 +13,10 @@ export default function Tag() {
   // const image = imageUrl.split("/").pop();
   const [tags, setTags] = useState("");
   // const accessToken = useAppSelector((state) => state.accessToken);
-  console.log(
-    "url ",
-    `https://d7i9m4qiyzzde.cloudfront.net/predict/tags?image_url=${imageUrl}`
-  );
   useEffect(() => {
     axios
       .post(
-        `https://d7i9m4qiyzzde.cloudfront.net/predict/tags?image_url=${imageUrl}`
+        `${process.env.NEXT_PUBLIC_SERVER_MODEL_URL}/predict/tags?image_url=${imageUrl}`
       )
       .then((response) => {
         setTags(response.data.Tag);

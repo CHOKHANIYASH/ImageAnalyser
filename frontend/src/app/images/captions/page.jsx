@@ -16,7 +16,7 @@ export default function Caption() {
   useEffect(() => {
     axios
       .post(
-        `https://d7i9m4qiyzzde.cloudfront.net/predict/caption?image_url=${imageUrl}`
+        `${process.env.NEXT_PUBLIC_SERVER_MODEL_URL}/predict/caption?image_url=${imageUrl}`
       )
       .then((response) => {
         const originalCaption = response.data.caption;
