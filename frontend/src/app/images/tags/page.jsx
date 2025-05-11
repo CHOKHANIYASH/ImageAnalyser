@@ -11,15 +11,17 @@ export default function Tag() {
   const searchParams = useSearchParams();
   const imageUrl = searchParams.get("imageUrl");
   // const image = imageUrl.split("/").pop();
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState([]);
   // const accessToken = useAppSelector((state) => state.accessToken);
   useEffect(() => {
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_SERVER_MODEL_URL}/predict/tags?image_url=${imageUrl}`
+        // `${process.env.NEXT_PUBLIC_SERVER_MODEL_URL}/predict/tags?image_url=${imageUrl}`
+        `${process.env.NEXT_PUBLIC_SERVER_MODEL_URL}/predict/test?image_url=${imageUrl}`
       )
       .then((response) => {
-        setTags(response.data.Tag);
+        console.log(response.data.Tags);
+        setTags(response.data.Tags);
       })
       .catch((err) => {
         console.log(err);
@@ -36,7 +38,17 @@ export default function Tag() {
           alt="thumbnail"
         />
         <div className="flex flex-col items-center text-2xl font-bold text-neutral-800">
-          {tags !== "" ? tags : <h1 className="">No Tags Available</h1>}
+          {tags !== "" && tags.length > 0 ? (
+            <ul className="ml-5 list-disc">
+              {tags.map((tag) => (
+                <li key={tag} className="m-5">
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <h1>No Tags Available</h1>
+          )}
         </div>
       </div>
     </>
